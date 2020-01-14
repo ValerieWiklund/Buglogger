@@ -18,7 +18,7 @@ server.use(express.static(__dirname + "/../client/dist"));
 //NOTE Allows requests from the port 8080, add additional addresses as needed
 var whitelist = ["http://localhost:8080"];
 var corsOptions = {
-  origin: function (origin, callback) {
+  origin: function(origin, callback) {
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
     callback(null, originIsWhitelisted);
   },
@@ -44,21 +44,21 @@ server.use("/api/values", new ValuesController().router);
 
 // NOTE DO NOT touch! This is for testing only
 import cleanupService from "./utils/CleanupService";
-server.get('/cleanup', async (req, res, next) => {
+server.get("/cleanup", async (req, res, next) => {
   try {
-    let data = await cleanupService.cleanupAsync()
-    res.send(data)
+    let data = await cleanupService.cleanupAsync();
+    res.send(data);
   } catch (e) {
-    next(e)
+    next(e);
   }
-})
+});
 
 //NOTE Default error handler, catches all routes with an error attached
 server.use((error, req, res, next) => {
   res.status(error.status || 400).send({ error: { message: error.message } });
 });
 
-//NOTE Catch all to insure to return 404 if recieved a bad route
+//NOTE Catch all to insure to return 404 if received a bad route
 server.use((req, res, next) => {
   res.status(404).send("Route not found");
 });
